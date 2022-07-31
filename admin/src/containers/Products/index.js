@@ -18,6 +18,8 @@ const Products = (props) => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [warranty, setWarranty] = useState("");
+  const [serialId, setSerialId] = useState("");
   const [productPictures, setProductPictures] = useState([]);
   const [show, setShow] = useState(false);
   const [productDetailModal, setProductDetailModal] = useState(false);
@@ -31,18 +33,23 @@ const Products = (props) => {
   };
 
   const submitProductForm = () => {
+    let obj={};
     const form = new FormData();
     form.append("name", name);
     form.append("quantity", quantity);
     form.append("price", price);
     form.append("description", description);
     form.append("category", categoryId);
-
+    form.append("warranty", warranty);
+    form.append("serialId", serialId);
+    obj.name=name;
+    obj.warranty=warranty;
+    obj.serialId=serialId;
     for (let pic of productPictures) {
       form.append("productPicture", pic);
     }
 
-    dispatch(addProduct(form)).then(() => setShow(false));
+    dispatch(addProduct(form,obj)).then(() => setShow(false));
   };
   const handleShow = () => setShow(true);
 
@@ -137,6 +144,18 @@ const Products = (props) => {
           value={description}
           placeholder={`Description`}
           onChange={(e) => setDescription(e.target.value)}
+        />
+        <Input
+          label="Warranty Period"
+          value={warranty}
+          placeholder={`Warranty`}
+          onChange={(e) => setWarranty(e.target.value)}
+        />
+        <Input
+          label="SerialId"
+          value={serialId}
+          placeholder={`SerialId`}
+          onChange={(e) => setSerialId(e.target.value)}
         />
         <select
           className="form-control"
